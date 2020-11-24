@@ -92,3 +92,24 @@ class Volumes(enum.Enum):
         :return: converted value
         """
         return self.unit * value
+
+
+class Weights(enum.Enum):
+    """
+
+    Enum: for Volumes
+    """
+    KG = 1.0
+    GRAMS = 0.001
+    TONNE = 1000
+
+    def __init__(self, unit):
+        self.unit = unit
+
+    def convert(self, value):
+        """
+
+        :param value: value to convert
+        :return: converted value
+        """
+        return self.unit * value
