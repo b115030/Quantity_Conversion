@@ -32,3 +32,13 @@ def test_given_lengths_in_different_units_if_equal_in_value_should_return_true(i
     first_unit = QuantityMeasurer(input_from, from_value)
     second_unit = QuantityMeasurer(input_to, to_value)
     assert first_unit.compare(second_unit) == expected
+
+
+@pytest.mark.parametrize("input_from, from_value, input_to, to_value, expected",
+                         [(Volumes.LITRE, 3.78, Volumes.GALLON, 1.0, 7.56), (Volumes.LITRE, 1.0, Volumes.ML, 1000.0, 2.0),
+                          (Volumes.LITRE, 6.5, Volumes.ML, 5000.0, 11.5)])
+def test_given_lengths_in_different_units_should_return_sum(input_from, from_value, input_to,
+                                                            to_value, expected):
+    first_unit = QuantityMeasurer(input_from, from_value)
+    second_unit = QuantityMeasurer(input_to, to_value)
+    assert first_unit.add(second_unit) == expected
