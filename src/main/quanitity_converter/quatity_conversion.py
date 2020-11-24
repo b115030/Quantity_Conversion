@@ -71,3 +71,24 @@ class Lengths(enum.Enum):
         :return: converted value
         """
         return self.unit * value
+
+
+class Volumes(enum.Enum):
+    """
+
+    Enum: for Volumes
+    """
+    LITRE = 1.0
+    GALLON = 3.78
+    ML = 0.001
+
+    def __init__(self, unit):
+        self.unit = unit
+
+    def convert(self, value):
+        """
+
+        :param value: value to convert
+        :return: converted value
+        """
+        return self.unit * value
