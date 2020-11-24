@@ -1,71 +1,72 @@
 import logging
-from src.main.quanitity_converter.IQuantityConverter import IQuantityConverter
+import enum
 
 logging.basicConfig(filename='quantity_convert.log', level=logging.DEBUG,
                     format='%(name)s | %(levelname)s | %(message)s')
 
 
-class QuantityMeasurementSystem(IQuantityConverter):
+class QuantityMeasurer:
+    """
+    Methods:
+        add
+        compare
+    """
 
-    def __init__(self):
-        self.M_TO_CM = 100
-        self.M_TO_KM = .001
-        self.G_TO_KG = .001
+    def __init__(self, unit, value):
+        self.__value = value
+        self.__unit = unit
 
-    def meter_to_cm_length(self, length_input):
+    def __eq__(self, other_class_to_compare):
+        if isinstance(other_class_to_compare, QuantityMeasurer):
+            return self.__value == other_class_to_compare.__value
+        return False
+
+    def compare(self, other_class_to_compare):
         """
 
-        :param length_input:  length in meters
-        :return: length in centimeters or exception
+        :param other_class_to_compare: class/Enum to compare with
+        :return: True if the class types are same else False
+        :rtype: bool
         """
-        try:
-            if not isinstance(length_input, (float, int)):
-                logging.debug("here!")
-                logging.exception('Exception: wrong input type')
-                raise TypeError("Exception: wlrong input type")
-            centimeter_length = length_input * self.M_TO_CM
-            logging.debug('meter to centimeter: {}'.format(centimeter_length))
-            return centimeter_length
-        except TypeError:
-            logging.exception('Exception: wrong input type')
-            print("enter a number")
-        except ValueError:
-            logging.exception('Exception: there is a problem with the content of the object you tried to assign the '
-                              'value to. ')
-            print("enter a number")
+        if self.__unit.__class__ == other_class_to_compare.__unit.__class__:
+            if self.__unit.__class__.convert(self.__unit,
+                                             self.__value) == other_class_to_compare.__unit.__class__.convert(
+                other_class_to_compare.__unit,
+                other_class_to_compare.__value):
+                return True
+        return False
 
-    def meter_to_km_length(self, length_input):
+    def add(self, other_class_to_compare):
         """
 
-        :param length_input:  length in meters
-        :return: length in kilometers or exception
+        :param other_class_to_compare: class/Enum to add with
+        :return: sum of values if both are from the same class
+        :rtype: float
         """
-        try:
-            kilometer_length = length_input * self.M_TO_KM
-            logging.debug('meter to kilometer: {}'.format(kilometer_length))
-            return kilometer_length
-        except TypeError:
-            logging.exception('Exception: wrong input type')
-            print("enter a number")
-        except ValueError:
-            logging.exception('Exception: there is a problem with the content of the object you tried to assign the '
-                              'value to. ')
-            print("enter a number")
+        if self.__unit.__class__ == other_class_to_compare.__unit.__class__:
+            return self.__unit.__class__.convert(self.__unit,
+                                                 self.__value) + other_class_to_compare.__unit.__class__.convert(
+                other_class_to_compare.__unit, other_class_to_compare.__value)
+        return 0
 
-    def gram_to_kg_weight(self, weight_input):
+
+class Lengths(enum.Enum):
+    """
+    Enum: for lengths
+    """
+    FEET = 12.0
+    INCH = 1.0
+    YARD = 36.0
+    CM = 0.4
+    M = 39.4
+
+    def __init__(self, unit):
+        self.unit = unit
+
+    def convert(self, value):
         """
 
-        :param weight_input: weight in grams
-        :return: weight in kilograms or exception
+        :param value:
+        :return: converted value
         """
-        try:
-            kilogram_weight = weight_input * self.G_TO_KG
-            logging.debug('gram to kilogram: {}'.format(kilogram_weight))
-            return kilogram_weight
-        except TypeError:
-            logging.exception('Exception:wrong input type')
-            print("enter a number")
-        except ValueError:
-            logging.exception('Exception: there is a problem with the content of the object you tried to assign the '
-                              'value to. ')
-            print("enter a number")
+        return self.unit * value
