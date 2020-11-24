@@ -57,3 +57,14 @@ def test_given_lengths_in_different_units_of_weight_if_equal_in_value_should_ret
     first_unit = QuantityMeasurer(input_from, from_value)
     second_unit = QuantityMeasurer(input_to, to_value)
     assert first_unit.compare(second_unit) == expected
+
+
+@pytest.mark.parametrize("input_from, from_value, input_to, to_value, expected",
+                         [(Weights.TONNE, 1.0, Weights.GRAMS, 1000.0, 1001.0),
+                          (Weights.KG, 1.0, Weights.TONNE, 111.745, 111746.0),
+                          (Weights.KG, 1.0, Weights.GRAMS, 111, 1.111)])
+def test_given_lengths_in_different_units_of_weight_should_return_sum(input_from, from_value, input_to,
+                                                                      to_value, expected):
+    first_unit = QuantityMeasurer(input_from, from_value)
+    second_unit = QuantityMeasurer(input_to, to_value)
+    assert first_unit.add(second_unit) == expected
