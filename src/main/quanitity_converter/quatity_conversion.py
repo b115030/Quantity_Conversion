@@ -52,6 +52,7 @@ class QuantityMeasurer:
 
 class Lengths(enum.Enum):
     """
+
     Enum: for lengths
     """
     FEET = 12.0
@@ -66,7 +67,7 @@ class Lengths(enum.Enum):
     def convert(self, value):
         """
 
-        :param value:
+        :param value: value to convert
         :return: converted value
         """
         return self.unit * value

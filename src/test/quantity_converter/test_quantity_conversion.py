@@ -4,8 +4,20 @@ from src.main.quanitity_converter.quatity_conversion import *
 
 @pytest.mark.parametrize("input_from, from_value, input_to, to_value, expected",
                          [(Lengths.FEET, 3.0, Lengths.YARD, 1.0, True), (Lengths.FEET, 1.0, Lengths.YARD, 1.0, False),
-                          (Lengths.INCH, 1.0, Lengths.YARD, 1.0, False), (Lengths.CM, 1.0, Lengths.M, 1.0, False)])
-def test_given_lengths_in_different_units_(input_from, from_value, input_to, to_value, expected):
-    feet = QuantityMeasurer(input_from, from_value)
-    yard = QuantityMeasurer(input_to, to_value)
-    assert feet.compare(yard) == expected
+                          (Lengths.INCH, 1.0, Lengths.YARD, 1.0, False), (Lengths.CM, 1.0, Lengths.M, 1.0, False),
+                          (Lengths.FEET, 1.0, Lengths.CM, 30.0, True), (Lengths.YARD, 1.0, Lengths.CM, 90.0, True)])
+def test_given_lengths_in_different_units_if_equal_in_value_should_return_true(input_from, from_value, input_to,
+                                                                               to_value, expected):
+    first_unit = QuantityMeasurer(input_from, from_value)
+    second_unit = QuantityMeasurer(input_to, to_value)
+    assert first_unit.compare(second_unit) == expected
+
+
+@pytest.mark.parametrize("input_from, from_value, input_to, to_value, expected",
+                         [(Lengths.INCH, 3.0, Lengths.INCH, 1.0, 4.0), (Lengths.INCH, 2.0, Lengths.FEET, 1.0, 14.0),
+                          (Lengths.INCH, 2.0, Lengths.CM, 2.5, 3.0)])
+def test_given_lengths_in_different_units_should_return_sum(input_from, from_value, input_to,
+                                                            to_value, expected):
+    first_unit = QuantityMeasurer(input_from, from_value)
+    second_unit = QuantityMeasurer(input_to, to_value)
+    assert first_unit.add(second_unit) == expected
