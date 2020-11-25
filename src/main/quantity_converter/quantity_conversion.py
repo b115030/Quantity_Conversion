@@ -69,14 +69,14 @@ class Lengths(enum.Enum):
     def __init__(self, unit):
         self.unit = unit
 
-    # def convert(self, value):
-    #     """
-    #     converting into units of lengths
-    #
-    #     :param value: value to convert
-    #     :return: converted value
-    #     """
-    #     return self.unit * value
+    def convert(self, value):
+        """
+        converting into units of lengths
+
+        :param value: value to convert
+        :return: converted value
+        """
+        return self.unit * value
 
 
 class Volumes(enum.Enum):
@@ -91,13 +91,13 @@ class Volumes(enum.Enum):
     def __init__(self, unit):
         self.unit = unit
 
-    # def convert(self, value):
-    #     """
-    #
-    #     :param value: value to convert
-    #     :return: converted value
-    #     """
-    #     return self.unit * value
+    def convert(self, value):
+        """
+
+        :param value: value to convert
+        :return: converted value
+        """
+        return self.unit * value
 
 
 class Weights(enum.Enum):
@@ -112,12 +112,25 @@ class Weights(enum.Enum):
     def __init__(self, unit):
         self.unit = unit
 
+    def convert(self, value):
+        """
 
-def convert(self, value):
-    """
+        :param value: value to convert
+        :return: converted value
+        """
+        logging.DEBUG("convert method")
+        return self.unit * value
 
-    :param value: value to convert
-    :return: converted value
-    """
-    logging.DEBUG("convert method")
-    return self.unit * value
+
+class Temperature(enum.Enum):
+    celsius = 1.8
+    fahrenheit = 1
+
+    def __init__(self, unit):
+        self.unit = unit
+
+    def convert(self, value):
+        if self == Temperature.celsius:
+            return self.unit * value + 32
+        else:
+            return self.unit * value
