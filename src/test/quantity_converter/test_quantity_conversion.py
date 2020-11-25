@@ -1,5 +1,11 @@
 import pytest
-from src.main.quanitity_converter.quatity_conversion import *
+from src.main.quantity_converter.quantity_conversion import *
+
+
+@pytest.fixture
+def quantity_converter_object():
+    quantity_converter = QuantityMeasurer()
+    return quantity_converter
 
 
 @pytest.mark.parametrize("input_from, from_value, input_to, to_value, expected",
@@ -8,9 +14,10 @@ from src.main.quanitity_converter.quatity_conversion import *
                           (Lengths.FEET, 1.0, Lengths.CM, 30.0, True), (Lengths.YARD, 1.0, Lengths.CM, 90.0, True)])
 def test_given_lengths_in_different_units_of_length_if_equal_in_value_should_return_true(input_from, from_value,
                                                                                          input_to,
-                                                                                         to_value, expected):
-    first_unit = QuantityMeasurer(input_from, from_value)
-    second_unit = QuantityMeasurer(input_to, to_value)
+                                                                                         to_value, expected,
+                                                                                         quantity_converter):
+    first_unit = quantity_converter(input_from, from_value)
+    second_unit = quantity_converter(input_to, to_value)
     assert first_unit.compare(second_unit) == expected
 
 
@@ -18,9 +25,9 @@ def test_given_lengths_in_different_units_of_length_if_equal_in_value_should_ret
                          [(Lengths.INCH, 3.0, Lengths.INCH, 1.0, 4.0), (Lengths.INCH, 2.0, Lengths.FEET, 1.0, 14.0),
                           (Lengths.INCH, 2.0, Lengths.CM, 2.5, 3.0)])
 def test_given_lengths_in_different_units_of_length_should_return_sum(input_from, from_value, input_to,
-                                                                      to_value, expected):
-    first_unit = QuantityMeasurer(input_from, from_value)
-    second_unit = QuantityMeasurer(input_to, to_value)
+                                                                      to_value, expected, quantity_converter):
+    first_unit = quantity_converter(input_from, from_value)
+    second_unit = quantity_converter(input_to, to_value)
     assert first_unit.add(second_unit) == expected
 
 
@@ -30,9 +37,10 @@ def test_given_lengths_in_different_units_of_length_should_return_sum(input_from
                           (Volumes.LITRE, 1.0, Volumes.LITRE, 1.0, True)])
 def test_given_lengths_in_different_units_of_volume_if_equal_in_value_should_return_true(input_from, from_value,
                                                                                          input_to,
-                                                                                         to_value, expected):
-    first_unit = QuantityMeasurer(input_from, from_value)
-    second_unit = QuantityMeasurer(input_to, to_value)
+                                                                                         to_value, expected,
+                                                                                         quantity_converter):
+    first_unit = quantity_converter(input_from, from_value)
+    second_unit = quantity_converter(input_to, to_value)
     assert first_unit.compare(second_unit) == expected
 
 
@@ -41,9 +49,9 @@ def test_given_lengths_in_different_units_of_volume_if_equal_in_value_should_ret
                           (Volumes.LITRE, 1.0, Volumes.ML, 1000.0, 2.0),
                           (Volumes.LITRE, 6.5, Volumes.ML, 5000.0, 11.5)])
 def test_given_lengths_in_different_units_of_volume_should_return_sum(input_from, from_value, input_to,
-                                                                      to_value, expected):
-    first_unit = QuantityMeasurer(input_from, from_value)
-    second_unit = QuantityMeasurer(input_to, to_value)
+                                                                      to_value, expected, quantity_converter):
+    first_unit = quantity_converter(input_from, from_value)
+    second_unit = quantity_converter(input_to, to_value)
     assert first_unit.add(second_unit) == expected
 
 
@@ -53,9 +61,10 @@ def test_given_lengths_in_different_units_of_volume_should_return_sum(input_from
                           (Weights.TONNE, 1.0, Weights.KG, 1000.0, True)])
 def test_given_lengths_in_different_units_of_weight_if_equal_in_value_should_return_true(input_from, from_value,
                                                                                          input_to,
-                                                                                         to_value, expected):
-    first_unit = QuantityMeasurer(input_from, from_value)
-    second_unit = QuantityMeasurer(input_to, to_value)
+                                                                                         to_value, expected,
+                                                                                         quantity_converter):
+    first_unit = quantity_converter(input_from, from_value)
+    second_unit = quantity_converter(input_to, to_value)
     assert first_unit.compare(second_unit) == expected
 
 
@@ -64,7 +73,7 @@ def test_given_lengths_in_different_units_of_weight_if_equal_in_value_should_ret
                           (Weights.KG, 1.0, Weights.TONNE, 111.745, 111746.0),
                           (Weights.KG, 1.0, Weights.GRAMS, 111, 1.111)])
 def test_given_lengths_in_different_units_of_weight_should_return_sum(input_from, from_value, input_to,
-                                                                      to_value, expected):
-    first_unit = QuantityMeasurer(input_from, from_value)
-    second_unit = QuantityMeasurer(input_to, to_value)
+                                                                      to_value, expected, quantity_converter):
+    first_unit = quantity_converter(input_from, from_value)
+    second_unit = quantity_converter(input_to, to_value)
     assert first_unit.add(second_unit) == expected
