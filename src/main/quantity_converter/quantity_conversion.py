@@ -29,7 +29,7 @@ class QuantityMeasurer:
         :return: True if the class types are same else False
         :rtype: bool
         """
-        logging.DEBUG("compare method")
+        # logging.DEBUG("compare method")
         if self.__unit.__class__ == other_class_to_compare.__unit.__class__:
             if self.__unit.__class__.convert(self.__unit,
                                              self.__value) == other_class_to_compare.__unit.__class__.convert(
@@ -39,7 +39,7 @@ class QuantityMeasurer:
         return False
 
 
-def add(self, other_unit_to_add):
+def __add__(self, other_unit_to_add):
     """
     adding units
 
@@ -47,12 +47,12 @@ def add(self, other_unit_to_add):
     :return: sum of values if both are from the same class
     :rtype: float
     """
-    logging.DEBUG("add method")
+    # logging.DEBUG("add method")
     if self.__unit.__class__ == other_unit_to_add.__unit.__class__:
-        return self.__unit.__class__.convert(self.__unit,
-                                             self.__value) + other_unit_to_add.__unit.__class__.convert(
+        sum = self.__unit.__class__.convert(self.__unit, self.__value) + other_unit_to_add.__unit.__class__.convert(
             other_unit_to_add.__unit, other_unit_to_add.__value)
-    return 0
+    logging.debug("addition of {} + {} is : {}".format(self.__value, other_unit_to_add.__value, sum))
+    return sum
 
 
 class Lengths(enum.Enum):
@@ -118,7 +118,7 @@ class Weights(enum.Enum):
         :param value: value to convert
         :return: converted value
         """
-        logging.DEBUG("convert method")
+        # logging.DEBUG("convert method")
         return self.unit * value
 
 
