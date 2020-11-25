@@ -38,21 +38,20 @@ class QuantityMeasurer:
                 return True
         return False
 
+    def __add__(self, other_unit_to_add):
+        """
+        adding units
 
-def __add__(self, other_unit_to_add):
-    """
-    adding units
-
-    :param other_unit_to_add: class/Enum to add with
-    :return: sum of values if both are from the same class
-    :rtype: float
-    """
-    # logging.DEBUG("add method")
-    if self.__unit.__class__ == other_unit_to_add.__unit.__class__:
-        sum = self.__unit.__class__.convert(self.__unit, self.__value) + other_unit_to_add.__unit.__class__.convert(
-            other_unit_to_add.__unit, other_unit_to_add.__value)
-    logging.debug("addition of {} + {} is : {}".format(self.__value, other_unit_to_add.__value, sum))
-    return sum
+        :param other_unit_to_add: class/Enum to add with
+        :return: sum of values if both are from the same class
+        :rtype: float
+        """
+        # logging.DEBUG("add method")
+        if self.__unit.__class__ == other_unit_to_add.__unit.__class__:
+            sum = self.__unit.__class__.convert(self.__unit, self.__value) + other_unit_to_add.__unit.__class__.convert(
+                other_unit_to_add.__unit, other_unit_to_add.__value)
+        # logging.debug("addition of {} + {} is : {}".format(self.__value, other_unit_to_add.__value, sum))
+        return sum
 
 
 class Lengths(enum.Enum):

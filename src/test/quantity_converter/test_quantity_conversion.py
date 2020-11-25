@@ -19,10 +19,10 @@ def test_given_lengths_in_different_units_of_length_if_equal_in_value_should_ret
                          [(Lengths.INCH, 3.0, Lengths.INCH, 1.0, 4.0), (Lengths.INCH, 2.0, Lengths.FEET, 1.0, 14.0),
                           (Lengths.INCH, 2.0, Lengths.CM, 2.5, 3.0)])
 def test_given_lengths_in_different_units_of_length_should_return_sum(input_from, from_value, input_to,
-                                                                      to_value, expected, quantity_converter_object):
-    first_unit = quantity_converter_object(input_from, from_value)
-    second_unit = quantity_converter_object(input_to, to_value)
-    assert first_unit.add(second_unit) == expected
+                                                                      to_value, expected):
+    first_unit = QuantityMeasurer(input_from, from_value)
+    second_unit = QuantityMeasurer(input_to, to_value)
+    assert first_unit + second_unit == expected
 
 
 @pytest.mark.parametrize("input_from, from_value, input_to, to_value, expected",
@@ -46,7 +46,7 @@ def test_given_lengths_in_different_units_of_volume_should_return_sum(input_from
                                                                       to_value, expected, quantity_converter):
     first_unit = quantity_converter(input_from, from_value)
     second_unit = quantity_converter(input_to, to_value)
-    assert first_unit.add(second_unit) == expected
+    assert first_unit + second_unit == expected
 
 
 @pytest.mark.parametrize("input_from, from_value, input_to, to_value, expected",
@@ -67,7 +67,7 @@ def test_given_lengths_in_different_units_of_weight_if_equal_in_value_should_ret
                           (Weights.KG, 1.0, Weights.TONNE, 111.745, 111746.0),
                           (Weights.KG, 1.0, Weights.GRAMS, 111, 1.111)])
 def test_given_lengths_in_different_units_of_weight_should_return_sum(input_from, from_value, input_to,
-                                                                      to_value, expected, quantity_converter):
-    first_unit = quantity_converter(input_from, from_value)
-    second_unit = quantity_converter(input_to, to_value)
-    assert first_unit.add(second_unit) == expected
+                                                                      to_value, expected, quantity_converter_object):
+    first_unit = quantity_converter_object(input_from, from_value)
+    second_unit = quantity_converter_object(input_to, to_value)
+    assert first_unit + second_unit == expected
