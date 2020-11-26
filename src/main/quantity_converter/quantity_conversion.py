@@ -1,5 +1,6 @@
 import logging
 import enum
+from src.main.quantity_converter.quantity_measurement_exceptions import NotSameQuantitiesException
 
 logging.basicConfig(filename='quantity_convert.log', level=logging.DEBUG,
                     format='%(name)s | %(levelname)s | %(message)s')
@@ -30,13 +31,16 @@ class QuantityMeasurer:
         :rtype: bool
         """
         # logging.DEBUG("compare method")
-        if self.__unit.__class__ == other_class_to_compare.__unit.__class__:
-            if self.__unit.__class__.convert(self.__unit,
-                                             self.__value) == other_class_to_compare.__unit.__class__.convert(
-                other_class_to_compare.__unit,
-                other_class_to_compare.__value):
-                return True
-        return False
+        try:
+            if self.__unit.__class__ == other_class_to_compare.__unit.__class__:
+                if self.__unit.__class__.convert(self.__unit,
+                                                 self.__value) == other_class_to_compare.__unit.__class__.convert(
+                    other_class_to_compare.__unit,
+                    other_class_to_compare.__value):
+                    return True
+            return False
+        except Exception:
+            raise NotSameQuantitiesException("Trying to compare quantities of different types")
 
     def __add__(self, other_unit_to_add):
         """
@@ -47,11 +51,14 @@ class QuantityMeasurer:
         :rtype: float
         """
         # logging.DEBUG("add method")
-        if self.__unit.__class__ == other_unit_to_add.__unit.__class__:
-            sum = self.__unit.__class__.convert(self.__unit, self.__value) + other_unit_to_add.__unit.__class__.convert(
-                other_unit_to_add.__unit, other_unit_to_add.__value)
+        try:
+            if self.__unit.__class__ == other_unit_to_add.__unit.__class__:
+                sum = self.__unit.__class__.convert(self.__unit, self.__value) + other_unit_to_add.__unit.__class__.convert(
+                    other_unit_to_add.__unit, other_unit_to_add.__value)
         # logging.debug("addition of {} + {} is : {}".format(self.__value, other_unit_to_add.__value, sum))
-        return sum
+            return sum
+        except Exception:
+            raise NotSameQuantitiesException("Trying to add quantities of different types")
 
 
 class Lengths(enum.Enum):
