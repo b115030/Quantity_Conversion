@@ -71,3 +71,23 @@ def test_given_lengths_in_different_units_of_weight_should_return_sum(input_from
     first_unit = quantity_converter_object(input_from, from_value)
     second_unit = quantity_converter_object(input_to, to_value)
     assert first_unit + second_unit == expected
+
+
+@pytest.mark.parametrize('input_from, from_value, input_to, to_value, expected',
+                         [(Temperature.fahrenheit, 89.6, Temperature.celsius, 32, True)])
+def test_given_lengths_in_different_units_of_weight_if_equal_in_value_should_return_true(input_from, from_value,
+                                                                                         input_to,
+                                                                                         to_value, expected,
+                                                                                         quantity_converter):
+    first_unit = quantity_converter(input_from, from_value)
+    second_unit = quantity_converter(input_to, to_value)
+    assert first_unit.compare(second_unit) == expected
+
+
+@pytest.mark.parametrize('input_from, from_value, input_to, to_value, expected',
+                         [(Temperature.fahrenheit, 89.6, Temperature.celsius, 32, 179.2)])
+def test_given_lengths_in_different_units_of_weight_should_return_sum(input_from, from_value, input_to,
+                                                                      to_value, expected, quantity_converter_object):
+    first_unit = quantity_converter_object(input_from, from_value)
+    second_unit = quantity_converter_object(input_to, to_value)
+    assert first_unit + second_unit == expected
